@@ -1,5 +1,5 @@
 ;<Program title>
-
+			; fill 32 addresses  
 jmp start
 
 ;data
