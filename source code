@@ -18,10 +18,10 @@ mvi c,00h
 mov b,a
 rlc
 xra b
-lxi h,2400h 	; set the memory address
+lxi h,2400h 	  ; set the memory address
 mov b,a
 
-RNG: mov m,b ;loop for generating numbers
+RNG: mov m,b  ;loop for generating numbers
 mov a,b
 inx h
 inr c
@@ -53,8 +53,9 @@ xchg
 mov m,b
 
 
-;quicksort algorithm
-;first call
+      ;quicksort algorithm
+        ;first call
+
 lda first 	;a=first
 lxi h,last 
 mov c,m 	;c=last
@@ -76,6 +77,7 @@ lxi h,last
 mov m,c
 
 ;while(i<j)
+
 jmp MainCondition
 MainWhile: jmp While1Condition1
 
@@ -85,12 +87,12 @@ While1Condition1: lxi h,pivot
 mov c,m
 mov l,c
 mvi h,25h
-mov b,m		;number[pivot]=B
+mov b,m		  ;number[pivot]=B
 lxi h,i
 mov c,m	
 mov l,c
 mvi h,25h
-mov a,m		;number[i]=A
+mov a,m		  ;number[i]=A
 cmp b
 jz While1Condition2
 jc While1Condition2
@@ -110,18 +112,19 @@ While2Condition: lxi h,pivot
 mov c,m
 mov l,c
 mvi h,25h
-mov b,m		;number[pivot]=B
+mov b,m		  ;number[pivot]=B
 lxi h,j
 mov c,m	
 mov l,c
 mvi h,25h
-mov a,m		;number[j]=A
+mov a,m		  ;number[j]=A
 cmp b
 jz IF
 jnc While2
 
 
 ;if(i<j)
+
 IF: lda i
 lxi h,j
 mov b,m
@@ -162,10 +165,11 @@ lxi h,pivot
 mov b,m
 mov l,b
 mvi h,25h
-mov b,m		;number[pivot]=b
-xchg		;de= address of number[pivot]
+mov b,m		  ;number[pivot]=b
+xchg		  ;de= address of number[pivot]
 lxi h,temp
-mov m,b		;temp=number[pivot]
+mov m,b		  ;temp=number[pivot]
+
 ;number[pivot]=number[j]
 lxi h,j
 mov c,m
