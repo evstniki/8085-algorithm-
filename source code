@@ -1,1 +1,206 @@
+jmp start
+
+number: equ 76h  ;input to generate numbers
+first: db 00h
+pivot:  db 00h
+last: db 31h   
+i: db 00h
+j: db 31h
+temp: db 00h
+
+
+start: nop
+
+mvi a,number
+mvi c,00h
+
+
+mov b,a
+rlc
+xra b
+lxi h,2400h 	; set the memory address
+mov b,a
+
+RNG: mov m,b ;loop for generating numbers
+mov a,b
+inx h
+inr c
+rar
+xra b
+mov b,a
+mov a,c
+cpi 31h
+jnz RNG
+mov m,b
+
+mvi a,00h
+mvi c,31h
+lxi h,2500h
+xchg
+lxi h,2400h
+;move numbers on 2500h
+MOVE: inr a
+mov b,m
+inx h
+xchg
+mov m,b
+inx h
+xchg
+cmp c
+jnz MOVE
+mov b,m
+xchg
+mov m,b
+
+
+;quicksort algorithm
+;first call
+lda first 	;a=first
+lxi h,last 
+mov c,m 	;c=last
+;call quicksort
+call quicksort
+
+
+hlt
+
+
+quicksort: cmp c
+jnc NOSORT
+sta pivot	;pivot=first
+sta i		;i=first
+sta first
+lxi h,j	
+mov m,c		;j=last
+lxi h,last
+mov m,c
+
+;while(i<j)
+jmp MainCondition
+MainWhile: jmp While1Condition1
+
+While1: inr a
+sta i
+While1Condition1: lxi h,pivot
+mov c,m
+mov l,c
+mvi h,25h
+mov b,m		;number[pivot]=B
+lxi h,i
+mov c,m	
+mov l,c
+mvi h,25h
+mov a,m		;number[i]=A
+cmp b
+jz While1Condition2
+jc While1Condition2
+jnc CheckWhile2
+While1Condition2: lda i		;A=i
+lxi h,last
+mov b,m
+cmp b
+jc While1 
+
+
+CheckWhile2: jmp While2Condition
+While2: lda j
+dcr a 
+sta j
+While2Condition: lxi h,pivot
+mov c,m
+mov l,c
+mvi h,25h
+mov b,m		;number[pivot]=B
+lxi h,j
+mov c,m	
+mov l,c
+mvi h,25h
+mov a,m		;number[j]=A
+cmp b
+jz IF
+jnc While2
+
+
+;if(i<j)
+IF: lda i
+lxi h,j
+mov b,m
+cmp b
+jnc MainCondition 
+;temp=number[i]
+lda i
+mov l,a
+mvi h,25h
+mov b,m		;number[i]=b
+lxi h,temp
+mov m,b		;b=temp=number[i]
+;number[i]=number[j]
+lxi h,j
+mov c,m
+mov l,c
+mvi h,25h
+mov c,m		;c=number[j]
+lda i
+mov l,a
+mvi h,25h
+mov m,c
+;number[j]=temp
+lxi h,j
+mov c,m
+mov l,c
+mvi h,25h
+mov m,b
+
+
+MainCondition: lda i		;(i<j)
+lxi h,j
+cmp m
+jc MainWhile
+
+;temp=number[pivot]
+lxi h,pivot
+mov b,m
+mov l,b
+mvi h,25h
+mov b,m		;number[pivot]=b
+xchg		;de= address of number[pivot]
+lxi h,temp
+mov m,b		;temp=number[pivot]
+;number[pivot]=number[j]
+lxi h,j
+mov c,m
+mov l,c
+mvi h,25h
+mov c,m		;number[j]=c
+xchg		;de=address of number[j]
+mov m,c		;number[pivot]=number[j]
+;number[j]=temp
+lxi h,temp
+mov b,m
+xchg
+mov m,b		;number[j]=temp
+
+
+;quicksort recursive call(first,j-1)
+lxi h,last
+mov b,m
+lxi h, j 
+mov c,m
+push b
+dcr c
+lda first
+call quicksort
+
+;quicksort recursive call(j+1,last)
+
+pop b
+mov a,c
+inr a
+mov c,b
+call quicksort
+
+
+
+NOSORT: ret
+
 
