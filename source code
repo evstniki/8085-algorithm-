@@ -1,24 +1,18 @@
+;<Program title>
+
 jmp start
 
-number: equ 76h  ;input to generate numbers
-first: db 00h
-pivot:  db 00h
-last: db 31h   
-i: db 00h
-j: db 31h
-temp: db 00h
+;data
 
 
-mov m,c
-;number[j]=temp
-lxi h,j
-mov c,m
-mov l,c
-mvi h,25h
-mov m,b
-mov c,m
-mov l,c
-mvi h,25h
-NOSORT: ret
+;code
+start: nop
+	LXI H, 2400H
+	MVI A, 00H
+LOOP:	MOV M,A
+	INX H
+	INR A
+	CPI 20H
+	JC LOOP
 
-
+hlt
