@@ -1,5 +1,7 @@
 # 8085-algorithm-
-8085 quicksort
+Intel 8085
+
+quicksort-algorithm
 
 This project developing in (GNUSim8085).
 
