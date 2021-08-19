@@ -1,5 +1,5 @@
 # 8085-algorithm-
-Intel 8085
+Intel 8085 microprocessor 
 
 quicksort-algorithm
 
